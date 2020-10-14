@@ -30,7 +30,6 @@ class ActivityStore {
                 this.loadingInitial = false;
             });
         } catch (error) {
-            console.log(error);
             runInAction("loadingActivitiesError", () => {
                 this.loadingInitial = false;
             });
@@ -47,7 +46,6 @@ class ActivityStore {
                 this.submitting = false;
             });
         } catch (error) {
-            console.log(error);
             runInAction("creatingActivitiesError", () => {
                 this.submitting = false;
             });
@@ -64,7 +62,6 @@ class ActivityStore {
                 this.editMode = false;
             });
         } catch (error) {
-            console.log(error);
             runInAction("editActivitiesError", () => {
                 this.editMode = false;
             });
@@ -107,7 +104,7 @@ class ActivityStore {
         this.selectedActivity = this.activityRegistry.get(id);
         this.editMode = false;
     };
-    
+
     @action cancelSelectedActivity = () => {
         this.selectedActivity = undefined;
     };

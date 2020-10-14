@@ -99,7 +99,7 @@ const ActivityForm: React.FC<IProps> = ({
                     content="Submit"
                 />
                 <Button
-                    onClick={() => cancelFormOpen}
+                    onClick={cancelFormOpen}
                     floated="right"
                     type="button"
                     content="Cancel"
