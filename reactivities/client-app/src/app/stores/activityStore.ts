@@ -11,10 +11,27 @@ class ActivityStore {
     @observable activity: IActivity | null = null;
     @observable editMode = false;
     @observable submitting = false;
-    @observable target = '';
+    @observable target = "";
+
     @computed get activitiesByDate() {
-        return Array.from(this.activityRegistry.values()).sort(
+        return this.groupActivitiesByDate(
+            Array.from(this.activityRegistry.values())
+        );
+    }
+
+    groupActivitiesByDate(activities: IActivity[]) {
+        const sortedActivities = activities.sort(
             (a, b) => Date.parse(a.date) - Date.parse(b.date)
+        );
+
+        return Object.entries(
+            sortedActivities.reduce((activities, activity) => {
+                const date = activity.date.split('T')[0];
+                activities[date] = activities[date]
+                    ? [...activities[date], activity]
+                    : [activity];
+                return activities;
+            }, {} as { [key: string]: IActivity[] })
         );
     }
     // Actions
@@ -40,8 +57,7 @@ class ActivityStore {
         let activity = this.getActivity(id);
         if (activity) {
             this.activity = activity;
-        }
-        else{
+        } else {
             this.loadingInitial = true;
             try {
                 activity = await agent.Activities.details(id);
@@ -49,23 +65,21 @@ class ActivityStore {
                     this.activity = activity;
                     this.loadingInitial = false;
                 });
-            }
-            catch(error){
+            } catch (error) {
                 runInAction("load activity error", () => {
                     this.loadingInitial = false;
                 });
                 console.log(console.error);
-                
             }
         }
-    }
+    };
 
     @action clearActivity = () => {
         this.activity = null;
-    }
+    };
     getActivity = (id: string) => {
         return this.activityRegistry.get(id);
-    }
+    };
     @action createActivity = async (activity: IActivity) => {
         this.submitting = true;
         try {
