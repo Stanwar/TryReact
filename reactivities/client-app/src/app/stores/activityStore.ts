@@ -50,6 +50,7 @@ class ActivityStore {
             runInAction("loadingActivitiesError", () => {
                 this.loadingInitial = false;
             });
+            console.log(error);
         }
     };
 
@@ -69,7 +70,7 @@ class ActivityStore {
                 runInAction("load activity error", () => {
                     this.loadingInitial = false;
                 });
-                console.log(console.error);
+                console.log(error);
             }
         }
     };
