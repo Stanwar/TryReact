@@ -5,13 +5,13 @@ namespace Application.Errors
 {
     public class RestException : Exception
     {
-        public object Errors { get; set; }
         public RestException(HttpStatusCode code, object errors = null)
         {
-            Errors = errors;
             Code = code;
+            Errors = errors;
         }
 
-        public HttpStatusCode Code { get; private set; }
+        public HttpStatusCode Code { get; }
+        public object Errors { get; }
     }
 }
